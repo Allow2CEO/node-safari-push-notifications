@@ -9,7 +9,25 @@
       "libraries": [ "-lssl" ],
 
       'conditions': [
-        [ 'OS=="win"', {
+	[ 'OS=="mac"', {
+					'include_dirs': [
+						'/usr/local/opt/openssl/include',
+					],
+ 					'libraries': [
+						'-L/usr/local/opt/openssl/lib',
+						#'-lssl',
+						#'-lcrypto',
+ 					],
+ 					'xcode_settings': {
+ 						'OTHER_CPLUSPLUSFLAGS': ['-std=c++11', '-stdlib=libc++'],
+ 						# node-gyp 2.x doesn't add this any more
+ 						# https://github.com/TooTallNate/node-gyp/pull/612
+ 						'OTHER_LDFLAGS':['-undefined dynamic_lookup'],
+ 						'GCC_ENABLE_CPP_EXCEPTIONS': 'YES',
+						'MACOSX_DEPLOYMENT_TARGET': '10.9'
+ 					}
+ 				},
+         'OS=="win"', {
           'conditions': [
             # "openssl_root" is the directory on Windows of the OpenSSL files
             ['target_arch=="x64"', {
